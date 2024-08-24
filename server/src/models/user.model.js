@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto';
 
 const userSchema = new mongoose.Schema({
     firstname : {
@@ -57,18 +58,15 @@ const userSchema = new mongoose.Schema({
 },{timestamps : true})
 
 //middleware for saving the password in hash form before saving the data in database.
-userSchema.pre('save' , async function(){
+userSchema.pre('save' , async function(next){
     if(!this.isModified('password')){
-       return next()
+       next()
     }
     this.password = await bcrypt.hash(this.password , 10)
 })
 
 //method for comparing password for login the user.
 userSchema.methods.comparePassword = async function(password){
-    console.log("comparing password ...")
-    console.log("sending : ",password)
-    console.log("Db pass :",this.password)
     const res = await bcrypt.compare(password , this.password)
     return res;
 }
@@ -79,6 +77,17 @@ userSchema.methods.generateJWTTocken = async function(){
         expiresIn : Date.now() + process.env.TOCKEN_EXPIRY*60*60*1000
     })
     return tocken;
+}
+
+//now we write method for generating tocken for forgot password using crypto.
+userSchema.methods.generateresetPasswordTocken = async function(){
+    const resetTocken = crypto.randomBytes(20).toString('hex')
+    const hashResetTocken = crypto.createHash('sha256').update(resetTocken).digest('hex');
+
+    this.resetPasswordTocken = hashResetTocken;
+    this.resetPasswordExpiry = Date.now() + 15*60*1000;
+
+    return resetTocken
 }
 
 export const userModel = mongoose.model('User' , userSchema);
