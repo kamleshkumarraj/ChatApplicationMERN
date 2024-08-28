@@ -1,10 +1,16 @@
+import { Outlet } from 'react-router-dom'
+import SideMenu from './components/home/SideMenu'
 import './style.css'
+import ProfileSection from './components/ReUsuableComp/ProfileSection'
 
 function App() {
-
   return (
     <>
-      <h1>Fronted project is completely setup with react and tailwind css.</h1>
+      <div id="app-page" className='flex  bg-[#676C77]'>
+        <SideMenu />
+        <Outlet />
+        <ProfileSection />
+      </div>
     </>
   )
 }

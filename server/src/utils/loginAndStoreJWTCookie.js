@@ -6,7 +6,7 @@ export const loginWithJWT = async (res,user) => {
             Date.now() + process.env.TOCKEN_EXPIRY*60*60*1000
         ),
         httpOnly: true, 
-        sameSite: 'None'
+        path : '/'
     }
     res.status(200).cookie('tocken',tocken,option).json({
         success : true,

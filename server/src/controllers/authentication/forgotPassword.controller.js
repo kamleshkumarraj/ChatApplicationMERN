@@ -14,7 +14,15 @@ export const forgotPassword = asyncHandler(async (req , res , next) => {
     const resetTocken = await user.generateresetPasswordTocken();
     await user.save({validateBeforeSave : false})
 
-    const messageUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/reset-password/${resetTocken}`
+    const origin = req.get('origin'); // Gets the protocol and hostname (e.g., https://example.com)
+    const referer = req.get('referer'); // Gets the full URL of the page making the request
+
+    // You can parse the URL if you need to extract the protocol or hostname separately
+    const url = new URL(origin || referer);
+    const protocol = url.protocol; // 'http:' or 'https:'
+    const hostname = url.hostname;
+    const port = url.port // 'example.com'
+    const messageUrl = `${protocol}//${hostname}:${port}/api/v1/auth/reset-password/${resetTocken}`
     const message = `you reset your password on click this link below :  \n\n ${messageUrl} \n\n If you don't want to reset your password then ignore them.`
 
     try{

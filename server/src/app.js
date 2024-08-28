@@ -2,6 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser'; 
 import cors from  'cors'
 import { authenticationRouter } from './routes/authentication/authentication.router.js';
+import { userRouter } from './routes/user/user.route.js';
 
 export const app = express();
 
@@ -16,8 +17,10 @@ app.use(cors({
     credentials : true,
     methods : ['GET','POST','PUT','DELETE']
 }))
+// app.use(cors())
 // now we define all routing.
 app.use('/api/v1/auth',authenticationRouter)
+app.use('/api/v1/user',userRouter)
 
 
 //create middleware for error handling.

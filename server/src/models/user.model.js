@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto';
+import { type } from 'os';
 
 const userSchema = new mongoose.Schema({
     firstname : {
@@ -54,7 +55,14 @@ const userSchema = new mongoose.Schema({
         default : 'user'
     },
     resetPasswordTocken : String,
-    resetPasswordExpiry : Date
+    resetPasswordExpiry : Date,
+    verifyEmailTocken : String,
+    verifyEmailExpiry : Date,
+    
+    isEmailVerified : {
+        type : Boolean,
+        default : false
+    }
 },{timestamps : true})
 
 //middleware for saving the password in hash form before saving the data in database.
@@ -86,6 +94,15 @@ userSchema.methods.generateresetPasswordTocken = async function(){
 
     this.resetPasswordTocken = hashResetTocken;
     this.resetPasswordExpiry = Date.now() + 15*60*1000;
+
+    return resetTocken
+}
+userSchema.methods.generateEmailVerifyTocken = async function(){
+    const resetTocken = crypto.randomBytes(20).toString('hex')
+    const hashResetTocken = crypto.createHash('sha256').update(resetTocken).digest('hex');
+
+    this.verifyEmailTocken = hashResetTocken;
+    this.verifyEmailExpiry = Date.now() + 5*60*1000;
 
     return resetTocken
 }

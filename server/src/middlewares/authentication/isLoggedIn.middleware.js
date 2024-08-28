@@ -4,6 +4,7 @@ import { userModel } from "../../models/user.model.js";
 import ErrorHandler from "../../error/serverErrorHandler.js";
 
 export const isLoggedIn = asyncHandler(async (req , res  ,next) => {
+    console.log(req.cookies)
     let {tocken} = req.cookies;
     tocken ? tocken : req.params.tocken;
 
