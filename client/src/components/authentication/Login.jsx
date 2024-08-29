@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { apiCalling } from '../../api/apiCalling'
 import { toast } from 'react-toastify'
 import { setUser } from '../../store/slice/auth/Self'
+import loginImage from '../../assets/LoginImage.jpg'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -33,72 +34,90 @@ function Login() {
   }
 
   return (
-    <Container
-      component={'main'}
-      className="grid w-full h-[100vh] place-content-center"
+    <div
+      id="loginContainer"
+      className="w-full h-full"
+      style={{
+        background: `linear-gradient(45deg , rgba(134,189,245 , .4) , rgba(183,214,233,.4) ) , url(${loginImage})`,
+        backgroundSize: 'cover',
+      }}
     >
-      <div id="login-page" className="grid grid-cols-2 gap-[5rem]">
-        <div id="img">
-          <img src={loginImg} alt="login-image" />
-        </div>
-        <Paper elevation={3} className="max-w-[50rem]   p-[2rem] mx-auto">
-          <Typography
-            variant="h4"
-            className=" text-[2rem]  space-y-[2rem]"
-            sx={{ fontWeight: '400' }}
+      <Container
+        component={'main'}
+        className="grid w-full h-[100vh] place-content-center"
+      >
+        <div id="login-page" className="grid grid-cols-2 gap-[5rem] bg-[]">
+          <div id="img" style={{ backdropFilter: `blur(2px)` }}>
+            <img src={loginImg} alt="login-image" />
+          </div>
+          <Paper
+            id="login-box"
+            elevation={3}
+            className="max-w-[50rem]   p-[2rem] mx-auto border-[1px] border-[#8ce39567]"
+            sx={{
+              backgroundColor: `rgba(255,255,255,0.3)`,
+              backdropFilter: `blur(2px)`,
+              borderRadius: '10px',
+            }}
           >
-            User Login
-          </Typography>
-          <form
-            onSubmit={handleLogin}
-            action=""
-            className="w-full flex flex-col gap-[1.5rem]  mt-[1rem]"
-          >
-            <InputField
-              placeholder={'Enter your email*'}
-              name={'email'}
-              value={formData.email}
-              setValue={setFormData}
-              type={'email'}
-            />
-            <InputField
-              placeholder={'Enter your password*'}
-              name={'password'}
-              value={formData.password}
-              setValue={setFormData}
-              type={'password'}
-            />
-            <Link id="forgot-pass" to={'/forgot-password'}>
-              <span className="hover:text-[#0077B6] text-[green] text-[1.8rem] font-[600]">
-                Forgot password?
-              </span>
-            </Link>
-            <Button
-              variant="contained"
-              type="submit"
-              className="w-full py-[1.5rem] "
-              sx={{
-                fontSize: '1.8rem',
-                background: `linear-gradient(45deg , #5468FF ,#59C3FF)`,
-                ':hover': {
-                  background: `linear-gradient(45deg , #59C3FF ,#5468FF)`,
-                },
-              }}
+            <Typography
+              variant="h3"
+              className=" text-[2rem]  space-y-[2rem]"
+              sx={{ fontWeight: '400' }}
             >
-              Login
-            </Button>
-            <p className="font-[600] text-[1.8rem] text-center">OR,</p>
-            <Link to="/" className="text-[1.8rem] font-[600] text-center">
-              {`Already haven't an account`}?
-              <span className="hover:text-[#0077B6] text-[green]">
-                {' '}
-                Register Now
-              </span>
-            </Link>
-          </form>
-        </Paper>
-      </div>
-    </Container>
+              User Login
+            </Typography>
+            <form
+              onSubmit={handleLogin}
+              action=""
+              className="w-full flex flex-col gap-[1.5rem]  mt-[1rem]"
+            >
+              <InputField
+                placeholder={'Enter your email*'}
+                name={'email'}
+                value={formData.email}
+                setValue={setFormData}
+                type={'email'}
+              />
+              <InputField
+                placeholder={'Enter your password*'}
+                name={'password'}
+                value={formData.password}
+                setValue={setFormData}
+                type={'password'}
+              />
+              <Link id="forgot-pass" to={'/forgot-password'}>
+                <span className="hover:text-[#b703ee] text-[#b5f005] text-[1.8rem] font-[600]">
+                  Forgot password?
+                </span>
+              </Link>
+              <Button
+                variant="contained"
+                type="submit"
+                className="w-full py-[1.5rem] "
+                sx={{
+                  fontSize: '1.8rem',
+                  background: `linear-gradient(45deg , #5468FF ,#59C3FF)`,
+                  ':hover': {
+                    background: `linear-gradient(45deg , #59C3FF ,#5468FF)`,
+                  },
+                }}
+              >
+                Login
+              </Button>
+              <p className="font-[600] text-[1.8rem] text-center">OR,</p>
+              <Link to="/" className="text-[1.8rem] font-[600] text-center">
+                {`Already haven't an account`}?
+                <span className="hover:text-[#b703ee] text-[#b5f005]">
+                  {' '}
+                  Register Now
+                </span>
+              </Link>
+            </form>
+          </Paper>
+        </div>
+      </Container>
+    </div>
   )
 }
 

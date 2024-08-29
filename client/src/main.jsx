@@ -15,6 +15,7 @@ import GroupChat from './pages/GroupChat.jsx'
 import Flag from './pages/Flag.jsx'
 import Storage from './pages/Storage.jsx'
 import MAil from './pages/MAil.jsx'
+import './style.css'
 
 const router = createBrowserRouter([
   {
@@ -32,27 +33,28 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: <App />,
-    children : [{
-      path : '/home/chat',
-      element : <Home />
-    },
-    {
-      path :'/home/mail',
-      element : <MAil />
-    },
-    {
-      path : '/home/group',
-      element : <GroupChat />
-    },
-    {
-      path : '/home/flag',
-      element : <Flag />
-    },
-    {
-      path :'/home/storage',
-      element : <Storage />
-    }
-  ]
+    children: [
+      {
+        path: '/home/chat',
+        element: <Home />,
+      },
+      {
+        path: '/home/mail',
+        element: <MAil />,
+      },
+      {
+        path: '/home/group',
+        element: <GroupChat />,
+      },
+      {
+        path: '/home/flag',
+        element: <Flag />,
+      },
+      {
+        path: '/home/storage',
+        element: <Storage />,
+      },
+    ],
   },
   {
     path: '/api/v1/auth/reset-password/:tocken',

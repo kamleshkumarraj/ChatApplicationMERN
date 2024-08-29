@@ -11,6 +11,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto'
 import profilePhoto from '../../assets/profile-photo.png'
 import { Avatar } from '@mui/material'
 import { setUser } from '../../store/slice/auth/Self'
+import registerImg from '../../assets/RegisterImage.jpg'
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -69,145 +70,168 @@ function Register() {
   }
 
   return (
-    <Container
-      component={'main'}
-      className="grid w-full h-[100vh] place-content-center  m-[2rem]"
+    <div
+      id="register-page"
+      style={{
+        background: `linear-gradient(45deg , rgba(134,8,245 , .1) , rgba(183,24,233,.1) ) , url(${registerImg})`,
+        backgroundSize: 'cover',
+        paddingBlock: '2rem',
+        height: '126vh',
+        backgroundAttachment: 'fixed',
+      }}
     >
-      <div
-        id="register-page"
-        className="grid grid-cols-2 gap-[5rem] place-content-center w-full"
+      <Container
+        component={'main'}
+        className="grid w-full h-[100vh] place-content-center "
       >
-        <div id="img" className="my-auto">
-          <img src={registerImage} alt="register-image" />
-        </div>
-        <Paper elevation={3} className="p-[2rem] mx-auto w-full">
-          <Typography
-            variant="h4"
-            className=" text-[2rem]  space-y-[2rem]"
-            sx={{ fontWeight: '400' }}
+        <div
+          id="register-page"
+          className="grid grid-cols-2 gap-[5rem] place-content-center w-full"
+        >
+          <div id="img" className="my-auto">
+            <img src={registerImage} alt="register-image" />
+          </div>
+          <Paper
+            id="RegistraitonForm"
+            elevation={3}
+            className="p-[2rem] mx-auto w-full"
+            sx={{
+              backgroundColor: `rgba(255,255,255,0.2)`,
+              backdropFilter: `blur(3px)`,
+              borderRadius: '10px',
+            }}
           >
-            Welcome Users!
-          </Typography>
-          <form
-            onSubmit={handleSubmit}
-            className="w-full flex flex-col gap-[1rem] mt-[1rem] justify-center"
-          >
-            <div
-              id="avtar-field"
-              className="flex gap-[.5rem] flex-col justify-center rounded-full"
+            <Typography
+              variant="h4"
+              className=" text-[2rem]  space-y-[2rem]"
+              sx={{ fontWeight: '400' }}
             >
-              <label
-                htmlFor="file"
-                className="relative mx-auto hover:cursor-pointer"
+              Welcome Users!
+            </Typography>
+            <form
+              onSubmit={handleSubmit}
+              className="w-full flex flex-col gap-[1rem] mt-[1rem] justify-center"
+            >
+              <div
+                id="avtar-field"
+                className="flex gap-[.5rem] flex-col justify-center rounded-full"
               >
-                <Avatar
-                  src={previewImage}
-                  sx={{ width: '15rem', height: '15rem' }}
-                  alt="profile-photo"
-                />
-                <AddAPhotoIcon
-                  sx={{ fontSize: '3rem' }}
-                  className={
-                    previewImage == '/src/assets/profile-photo.png'
-                      ? 'absolute top-[62%] left-[68%] text-[gray]'
-                      : 'absolute top-[75%] left-[76%] text-[#575656]'
-                  }
-                />
-              </label>
+                <label
+                  htmlFor="file"
+                  className="relative mx-auto hover:cursor-pointer"
+                >
+                  <Avatar
+                    src={previewImage}
+                    sx={{ width: '15rem', height: '15rem' }}
+                    alt="profile-photo"
+                  />
+                  <AddAPhotoIcon
+                    sx={{ fontSize: '3rem' }}
+                    className={
+                      previewImage == '/src/assets/profile-photo.png'
+                        ? 'absolute top-[62%] left-[68%] text-[#1a1919]'
+                        : 'absolute top-[75%] left-[76%] text-[#1b1a1a]'
+                    }
+                  />
+                </label>
 
-              <input
-                onInput={handleImage}
-                id="file"
-                className="hidden"
-                type="file"
+                <input
+                  onInput={handleImage}
+                  id="file"
+                  className="hidden"
+                  type="file"
+                />
+                <p
+                  id="img-error"
+                  className="font-[600] text-[1.6rem] text-[red] text-center my-[.5rem]"
+                >
+                  {errorConfig.imageErrror}
+                </p>
+              </div>
+              <InputField
+                placeholder={'Enter your firstname*'}
+                name={'firstname'}
+                value={formData.firstname}
+                setValue={setFormData}
+                type={'text'}
               />
-              <p
-                id="img-error"
-                className="font-[600] text-[1.6rem] text-[red] text-center my-[.5rem]"
-              >
-                {errorConfig.imageErrror}
-              </p>
-            </div>
-            <InputField
-              placeholder={'Enter your firstname*'}
-              name={'firstname'}
-              value={formData.firstname}
-              setValue={setFormData}
-              type={'text'}
-            />
-            <InputField
-              placeholder={'Enter your middlename'}
-              name={'middlename'}
-              value={formData.middlename}
-              setValue={setFormData}
-              type={'text'}
-            />
-            <InputField
-              placeholder={'Enter your lastname*'}
-              name={'lastname'}
-              value={formData.lastname}
-              setValue={setFormData}
-              type={'text'}
-            />
-            <InputField
-              placeholder={'Enter your username*'}
-              name={'username'}
-              value={formData.username}
-              setValue={setFormData}
-              type={'text'}
-              Note={'Username must be unique!'}
-            />
-            <InputField
-              placeholder={'Enter your email*'}
-              name={'email'}
-              value={formData.email}
-              setValue={setFormData}
-              type={'email'}
-            />
-            <InputField
-              placeholder={'Enter your password*'}
-              name={'password'}
-              value={formData.password}
-              setValue={setFormData}
-              type={'password'}
-            />
-            <InputField
-              placeholder={'Enter your confirm password*'}
-              name={'confirmPassword'}
-              value={formData.confirmPassword}
-              setValue={setFormData}
-              type={'password'}
-            />
+              <InputField
+                placeholder={'Enter your middlename'}
+                name={'middlename'}
+                value={formData.middlename}
+                setValue={setFormData}
+                type={'text'}
+              />
+              <InputField
+                placeholder={'Enter your lastname*'}
+                name={'lastname'}
+                value={formData.lastname}
+                setValue={setFormData}
+                type={'text'}
+              />
+              <InputField
+                placeholder={'Enter your username*'}
+                name={'username'}
+                value={formData.username}
+                setValue={setFormData}
+                type={'text'}
+                Note={'Username must be unique!'}
+              />
+              <InputField
+                placeholder={'Enter your email*'}
+                name={'email'}
+                value={formData.email}
+                setValue={setFormData}
+                type={'email'}
+              />
+              <InputField
+                placeholder={'Enter your password*'}
+                name={'password'}
+                value={formData.password}
+                setValue={setFormData}
+                type={'password'}
+              />
+              <InputField
+                placeholder={'Enter your confirm password*'}
+                name={'confirmPassword'}
+                value={formData.confirmPassword}
+                setValue={setFormData}
+                type={'password'}
+              />
 
-            <Button
-              id="button"
-              variant="contained"
-              type="submit"
-              className="w-full py-[1.5rem] "
-              sx={{
-                fontSize: '1.8rem',
-                background: `linear-gradient(45deg , #5468FF ,#59C3FF)`,
-                ':hover': {
-                  background: `linear-gradient(45deg , #59C3FF ,#5468FF)`,
-                },
-              }}
-            >
-              Register
-            </Button>
-            <p className="font-[600] text-[1.8rem] py-[.5rem] text-center">
-              OR,
-            </p>
-            <Link to="/login" className="text-[1.8rem] font-[600] text-center">
-              Already have an account?
-              <span className="hover:text-[#0077B6] text-[green]">
-                {' '}
-                Login Now
-              </span>
-            </Link>
-          </form>
-        </Paper>
-      </div>
-    </Container>
+              <Button
+                id="button"
+                variant="contained"
+                type="submit"
+                className="w-full py-[1.5rem] "
+                sx={{
+                  fontSize: '1.8rem',
+                  background: `linear-gradient(45deg , #5468FF ,#59C3FF)`,
+                  ':hover': {
+                    background: `linear-gradient(45deg , #59C3FF ,#5468FF)`,
+                  },
+                }}
+              >
+                Register
+              </Button>
+              <p className="font-[600] text-[1.8rem] py-[.5rem] text-center text-white">
+                OR,
+              </p>
+              <Link
+                to="/login"
+                className="text-[1.8rem] font-[600] text-center text-[#fff]"
+              >
+                Already have an account?
+                <span className="hover:text-[#b703ee] text-[#b5f005]">
+                  {' '}
+                  Login Now
+                </span>
+              </Link>
+            </form>
+          </Paper>
+        </div>
+      </Container>
+    </div>
   )
 }
 

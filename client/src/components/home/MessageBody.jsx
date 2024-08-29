@@ -2,13 +2,28 @@ import { GoDeviceCameraVideo } from 'react-icons/go'
 import { TbPhoneCall } from 'react-icons/tb'
 import SendingMessage from '../ReUsuableComp/SendingMessage'
 import ReceiveImage from '../ReUsuableComp/ReceiveImage'
-
+import { MdSend } from 'react-icons/md'
+import { IoMdAttach } from 'react-icons/io'
+import chatImage from '../../assets/chatImage.jpg'
 function MessageBody() {
   return (
-    <div className="w-[70rem] pt-[3rem] bg-[#1c1c29]" id="chat-body">
+    <div
+      className="w-[70rem]  relative "
+      id="chat-body"
+      style={{
+        background: `url(${chatImage})`,
+        backgroundSize: '100% 100%',
+        backgroundAttachment: 'fixed',
+        borderTopLeftRadius: '.75rem',
+        borderTopRightRadius: '.75rem',
+      }}
+    >
       <div
         id="chat-header"
-        className="py-[3rem] flex justify-between items-center"
+        className="py-[1rem] pb-[3rem] flex justify-between items-center bg-[#1c1c2970]"
+        style={{
+          backdropFilter: `blur(5px)`,
+        }}
       >
         <div id="left" className="flex flex-col gap-[.5rem]">
           <div
@@ -37,7 +52,8 @@ function MessageBody() {
 
       <div
         id="message-body-scroll"
-        className="flex flex-col gap-[2rem] w-full mt-[3rem] max-h-[75vh] overflow-auto"
+        className="flex flex-col gap-[2rem] w-full  max-h-[78.8vh] overflow-auto"
+        
       >
         <SendingMessage message={`Hey, How are you ?`} />
         <ReceiveImage message={`I am fine. What about you ?`} />
@@ -52,6 +68,37 @@ function MessageBody() {
         <SendingMessage
           message={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, molestiae distinctio? Aperiam neque ut delectus quisquam nulla fugit natus cupiditate maxime quas molestiae eveniet commodi officiis expedita eum unde accusamus laborum magnam, pariatur hic ab reiciendis.`}
         />
+      </div>
+      <div
+        id="sending-box"
+        className="absolute bottom-0 flex w-full border-b-[5px] border-[#04e4c6] bg-[#7cabb496]"
+        style={{
+          backdropFilter: `blur(2px)`,
+        }}
+      >
+        <div
+          id="file-sending"
+          className="bg-[#2e2f4000] py-[1.3rem] pl-[1rem]"
+          style={{ borderTopLeftRadius: '.75rem' }}
+        >
+          <label htmlFor="file" className="cursor-pointer">
+            <IoMdAttach size={'2.4rem'} color="white" />
+          </label>
+          <input id="file" type="file" className="hidden" />
+        </div>
+        <input
+          type="text"
+          className="w-[85%] py-[1.3rem] text-white px-[2rem] text-[1.6rem]  focus:outline-none rounded-t-[.5rem] bg-[#2e2f4000] "
+          placeholder="Sending..."
+        />
+        <div
+          style={{ borderTopRightRadius: '.75rem' }}
+          id="button-send"
+          className="bg-[#319ff35e] px-[2rem] py-[1.3rem] text-[white] text-[1.6rem] flex gap-[1rem] items-center font-[600]cursor-pointer "
+        >
+          <p id="button">Send</p>
+          <MdSend color="white" size={'2rem'} className="" />
+        </div>
       </div>
     </div>
   )

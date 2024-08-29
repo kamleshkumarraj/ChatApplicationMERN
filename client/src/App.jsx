@@ -6,7 +6,7 @@ import ProfileSection from './components/ReUsuableComp/ProfileSection'
 function App() {
   return (
     <>
-      <div id="app-page" className='flex  bg-[#676C77]'>
+      <div id="app-page" className='flex  bg-[#676C77] justify-between'>
         <SideMenu />
         <Outlet />
         <ProfileSection />
