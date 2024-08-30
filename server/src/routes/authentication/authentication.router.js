@@ -9,14 +9,17 @@ import { updatePassword } from '../../controllers/authentication/updatePassword.
 import { verifyEmail } from '../../controllers/authentication/verifyEmail.js';
 import { verificationEmail } from '../../controllers/authentication/verificationEmail.controller.js';
 import { isEmailVerified } from '../../middlewares/authentication/isVerified.middleware.js';
+import { avatarUpload } from '../../middlewares/fileUpload/avatarupload.js';
+import { directLogin } from '../../controllers/authentication/directLogin.controller.js';
 
 export const authenticationRouter = Router();
 
-authenticationRouter.route('/register').post(userRegister)
+authenticationRouter.route('/register').post(avatarUpload , userRegister)
 authenticationRouter.route('/login').post(userLogin)
-authenticationRouter.route('/logout').get(isLoggedIn,isEmailVerified,userLogout)
+authenticationRouter.route('/logout').get(isLoggedIn,userLogout)
 authenticationRouter.route('/reset-password/:tocken').post(resetPassword)
 authenticationRouter.route('/update-password').post(isLoggedIn,updatePassword)
 authenticationRouter.route('/forgot-password').post(isLoggedIn,forgotPassword)
 authenticationRouter.route('/verify-email').get(isLoggedIn,verifyEmail)
 authenticationRouter.route('/verify-email/verification/:tocken').get(verificationEmail)
+authenticationRouter.route('/direct-login/:tocken').get(isLoggedIn , directLogin)

@@ -8,6 +8,7 @@ import { apiCalling } from '../../api/apiCalling'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { getApiResponse } from '../../store/slice/apiResponse'
+import { setUser } from '../../store/slice/auth/Self'
 
 function ResetPassword() {
   const [formData, setFormData] = useState({
@@ -29,7 +30,9 @@ function ResetPassword() {
     const data = await dispatch(apiCalling(options))
     if (data.success) {
       toast.success(data.message)
-      navigate('/home')
+      dispatch(setUser(data.user))
+      localStorage.setItem('tocken',data.tocken)
+      navigate('/chat')
     } else toast.error(data.message)
   }
   return (

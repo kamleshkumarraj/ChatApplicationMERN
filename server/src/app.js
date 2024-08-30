@@ -1,10 +1,12 @@
-import express from 'express';
+import express, { urlencoded } from 'express';
 import cookieParser from 'cookie-parser'; 
 import cors from  'cors'
 import { authenticationRouter } from './routes/authentication/authentication.router.js';
 import { userRouter } from './routes/user/user.route.js';
 
 export const app = express();
+
+app.use(urlencoded({extended: true}))
 
 app.use(express.json({
     limit : '1000kb'

@@ -6,7 +6,6 @@ import forgotImage from '../../assets/forgot-password.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { apiCalling } from '../../api/apiCalling'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
 import { getApiResponse } from '../../store/slice/apiResponse'
 
 function ForgotPassword() {
@@ -14,7 +13,6 @@ function ForgotPassword() {
     email: '',
   })
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const apiResponse = useSelector(getApiResponse)
   const handleForgotPass = async (e) => {
     e.preventDefault()

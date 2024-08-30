@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto';
-import { type } from 'os';
 
 const userSchema = new mongoose.Schema({
     firstname : {
@@ -42,12 +41,12 @@ const userSchema = new mongoose.Schema({
         public_id : {
             type : String,
             required : ['true' , "please enter public_id"],
-            default : 'jndkjwbe7gwf8g7tcg6r6cf'
+            
         },
         url : {
             type : String,
             required : ['true' , "please enter url"],
-            default : 'https://myImage/image.png'
+           
         }
     },
     roles : {

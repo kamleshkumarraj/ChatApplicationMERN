@@ -20,16 +20,19 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+
     const options = {
       method: 'POST',
       url: 'http://localhost:3000/api/v1/auth/login',
       formData,
+      contentType: 'application/json',
     }
     const data = await dispatch(apiCalling(options))
     if (data.success) {
       dispatch(setUser(data.user))
       toast.success(data.message)
-      navigate('/home/chat')
+      localStorage.setItem('tocken', data.tocken)
+      navigate('/chat')
     } else toast.error(data.message)
   }
 

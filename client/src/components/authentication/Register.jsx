@@ -1,9 +1,9 @@
 import { Container, Button, Paper, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import InputField from '../ReUsuableComp/InputField'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import registerImage from '../../assets/signin-img.svg'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { apiCalling } from '../../api/apiCalling'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
@@ -12,9 +12,13 @@ import profilePhoto from '../../assets/profile-photo.png'
 import { Avatar } from '@mui/material'
 import { setUser } from '../../store/slice/auth/Self'
 import registerImg from '../../assets/RegisterImage.jpg'
+import { getApiResponse } from '../../store/slice/apiResponse'
 
 function Register() {
-  const [formData, setFormData] = useState({
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [formDataLocal, setFormDataLocal] = useState({
     firstname: '',
     middlename: '',
     lastname: '',
@@ -22,16 +26,24 @@ function Register() {
     email: '',
     password: '',
     confirmPassword: '',
+    avatar: '',
   })
+
+  const formData = new FormData()
+
+  Object.entries(formDataLocal).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+
   const [previewImage, setPreviewImage] = useState(profilePhoto)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const options = {
       url: 'http://localhost:3000/api/v1/auth/register',
       method: 'POST',
       formData,
+      contentType: 'multipart/form-data',
     }
     const data = await dispatch(apiCalling(options))
 
@@ -66,9 +78,11 @@ function Register() {
         if (ValidateImage(file)) setPreviewImage(reader.result)
       }
       reader.readAsDataURL(file)
+      setFormDataLocal((prev) => ({ ...prev, avatar: e.target.files[0] }))
     }
   }
 
+  const apiResponse = useSelector(getApiResponse)
   return (
     <div
       id="register-page"
@@ -109,6 +123,9 @@ function Register() {
               Welcome Users!
             </Typography>
             <form
+              method="post"
+              encType="multipart/form-data"
+              action="http://localhost:3000/api/v1/auth/register"
               onSubmit={handleSubmit}
               className="w-full flex flex-col gap-[1rem] mt-[1rem] justify-center"
             >
@@ -140,6 +157,7 @@ function Register() {
                   id="file"
                   className="hidden"
                   type="file"
+                  name="avatar"
                 />
                 <p
                   id="img-error"
@@ -151,51 +169,51 @@ function Register() {
               <InputField
                 placeholder={'Enter your firstname*'}
                 name={'firstname'}
-                value={formData.firstname}
-                setValue={setFormData}
+                value={formDataLocal.firstname}
+                setValue={setFormDataLocal}
                 type={'text'}
               />
               <InputField
                 placeholder={'Enter your middlename'}
                 name={'middlename'}
-                value={formData.middlename}
-                setValue={setFormData}
+                value={formDataLocal.middlename}
+                setValue={setFormDataLocal}
                 type={'text'}
               />
               <InputField
                 placeholder={'Enter your lastname*'}
                 name={'lastname'}
-                value={formData.lastname}
-                setValue={setFormData}
+                value={formDataLocal.lastname}
+                setValue={setFormDataLocal}
                 type={'text'}
               />
               <InputField
                 placeholder={'Enter your username*'}
                 name={'username'}
-                value={formData.username}
-                setValue={setFormData}
+                value={formDataLocal.username}
+                setValue={setFormDataLocal}
                 type={'text'}
                 Note={'Username must be unique!'}
               />
               <InputField
                 placeholder={'Enter your email*'}
                 name={'email'}
-                value={formData.email}
-                setValue={setFormData}
+                value={formDataLocal.email}
+                setValue={setFormDataLocal}
                 type={'email'}
               />
               <InputField
                 placeholder={'Enter your password*'}
                 name={'password'}
-                value={formData.password}
-                setValue={setFormData}
+                value={formDataLocal.password}
+                setValue={setFormDataLocal}
                 type={'password'}
               />
               <InputField
                 placeholder={'Enter your confirm password*'}
                 name={'confirmPassword'}
-                value={formData.confirmPassword}
-                setValue={setFormData}
+                value={formDataLocal.confirmPassword}
+                setValue={setFormDataLocal}
                 type={'password'}
               />
 
@@ -212,7 +230,10 @@ function Register() {
                   },
                 }}
               >
-                Register
+                {apiResponse?.apiStatus == true ? 'Submitting...' : 'Submit'}
+                {apiResponse?.apiStatus && (
+                  <div className="absolute left-[65%] loader"></div>
+                )}
               </Button>
               <p className="font-[600] text-[1.8rem] py-[.5rem] text-center text-white">
                 OR,

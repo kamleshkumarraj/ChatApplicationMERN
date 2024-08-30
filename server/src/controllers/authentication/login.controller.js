@@ -5,6 +5,7 @@ import { loginWithJWT } from "../../utils/loginAndStoreJWTCookie.js";
 
 export const userLogin = asyncHandler(async (req , res , next) => {
     //extracting data from sending by client.
+    console.log(req.body)
     const {email , password} = req.body;
     //check email or password is available or not.
     if(!email || !password) return next(new ErrorHandler("Please enter email and password",402))
