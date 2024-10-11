@@ -31,7 +31,9 @@ export const userRegister = asyncHandler(async (req , res , next) => {
     }
     const user = await userModel.create({avatar , firstname,middlename,lastname,username,email,password})
     //code for sending error if usercreated failed.
-    if(!user) return next(new ErrorHandler("User registration failed !",400))
+    if(!user)
+       return next(new ErrorHandler("User creation failed",402))
+    
     //code for send response if user successfully registered.
     res.status(200).json({
         success : true,

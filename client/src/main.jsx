@@ -16,11 +16,17 @@ import Flag from './pages/Flag.jsx'
 import Storage from './pages/Storage.jsx'
 import MAil from './pages/MAil.jsx'
 import './style.css'
+import { AppDataWrapper } from './context/AppDataWrapper.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <AppDataWrapper>
+        {' '}
+        <App />{' '}
+      </AppDataWrapper>
+    ),
     children: [
       {
         path: '/chat',
@@ -42,7 +48,6 @@ const router = createBrowserRouter([
         path: '/storage',
         element: <Storage />,
       },
-      
     ],
   },
   {
@@ -51,13 +56,17 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />,
+    element: (
+      <AppDataWrapper>
+        <Login />
+      </AppDataWrapper>
+    ),
   },
   {
     path: '/forgot-password',
     element: <ForgotPassword />,
   },
-  
+
   {
     path: '/api/v1/auth/reset-password/:tocken',
     element: <ResetPassword />,

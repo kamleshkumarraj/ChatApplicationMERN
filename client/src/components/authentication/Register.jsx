@@ -1,7 +1,7 @@
 import { Container, Button, Paper, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import InputField from '../ReUsuableComp/InputField'
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import registerImage from '../../assets/signin-img.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { apiCalling } from '../../api/apiCalling'

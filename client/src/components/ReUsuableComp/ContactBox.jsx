@@ -1,21 +1,30 @@
 import { Avatar } from '@mui/material'
-
-function ContactBox({ profilePhoto }) {
+import { useContext } from 'react'
+import { AppDataProviderContext } from '../../context/AppDataWrapper'
+function ContactBox({ image, fullName, userData }) {
+  const { setContactPersonData } = useContext(AppDataProviderContext)
   return (
     <div
       id="contact"
-      className="py-[2rem] w-full pl-[3rem] pr-[1rem] text-[white] flex gap-[1rem] items-center hover:bg-[#272836]"
+      className="py-[1.4rem] w-full hover:cursor-pointer pl-[3rem] pr-[1rem] text-[black] flex gap-[1rem] items-center hover:bg-[#88d3dd64] bg-[#9561d834]"
+      style={{
+        backdropFilter: `blur(5px)`,
+        boxShadow: `rgba(100, 100, 111, 0.2) 0px 7px 29px 0px`,
+      }}
+      onClick={() => {
+        setContactPersonData(userData)
+      }}
     >
       <div id="avatart">
-        <Avatar src={profilePhoto} sx={{ width: '5rem', height: '5rem' }} />
+        <Avatar src={image} sx={{ width: '5rem', height: '5rem' }} />
       </div>
       <div id="details" className="flex flex-col w-full gap-[1rem]">
         <div
           id="name-time"
-          className="font-[600] text-[1.8rem] flex justify-between text-[#E6E7E9] items-center"
+          className="font-[600] text-[1.8rem] flex justify-between text-[black] items-center"
         >
           <p className="" id="name">
-            Kamlesh Kumar
+            {fullName}
           </p>
           <p className="text-[1.5rem]" id="date">
             08:12

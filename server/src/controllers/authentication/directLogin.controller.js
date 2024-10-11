@@ -6,7 +6,6 @@ import { loginWithJWT } from "../../utils/loginAndStoreJWTCookie.js";
 
 export const directLogin = asyncHandler(async (req , res , next) => {
     const tocken = req.params.tocken;
-    console.log("direct login running...")
     if(!tocken) return next(new ErrorHandler("please provide tocken for login !",401))
 
     try{

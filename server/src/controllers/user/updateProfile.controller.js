@@ -8,7 +8,6 @@ export const updateProfile = asyncHandler(async (req , res , next) => {
         runValidators : true,
         useFindAndModify : false
     } )
-    console.log(user)
     res.status(200).json({
         success : true,
         message : "User profile updated successfully",

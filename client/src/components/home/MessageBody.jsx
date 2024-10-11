@@ -1,23 +1,22 @@
 import { GoDeviceCameraVideo } from 'react-icons/go'
 import { TbPhoneCall } from 'react-icons/tb'
 import SendingMessage from '../ReUsuableComp/SendingMessage'
-import ReceiveImage from '../ReUsuableComp/ReceiveImage'
 import { MdSend } from 'react-icons/md'
 import { IoMdAttach } from 'react-icons/io'
-import chatImage from '../../assets/chatImage.jpg'
+import ReceivingMessage from '../ReUsuableComp/ReceivingMessage'
+import { useContext } from 'react'
+import { AppDataProviderContext } from '../../context/AppDataWrapper'
 function MessageBody() {
+  const { contactPersonData } = useContext(AppDataProviderContext)
+  const fullname =
+    contactPersonData?.firstname +
+    ' ' +
+    contactPersonData?.middlename +
+    ' ' +
+    contactPersonData?.lastname
+
   return (
-    <div
-      className="w-[70rem]  relative "
-      id="chat-body"
-      style={{
-        background: `url(${chatImage})`,
-        backgroundSize: '100% 100%',
-        backgroundAttachment: 'fixed',
-        borderTopLeftRadius: '.75rem',
-        borderTopRightRadius: '.75rem',
-      }}
-    >
+    <div className="relative w-full " id="chat-body">
       <div
         id="chat-header"
         className="py-[1rem] pb-[3rem] flex justify-between items-center bg-[#1c1c2970]"
@@ -30,7 +29,7 @@ function MessageBody() {
             id="name"
             className="font-[600] items-center gap-[10rem] flex justify-between px-[4rem] text-[2.2rem] text-[#C6C6CB]"
           >
-            <p id="name">Kamlesh Kumar</p>
+            <p id="name">{contactPersonData ? fullname : '.....'}</p>
             <p className="font-[500] text-[1.6rem] text-green-500" id="status">
               Typing...
             </p>
@@ -52,17 +51,16 @@ function MessageBody() {
 
       <div
         id="message-body-scroll"
-        className="flex flex-col gap-[2rem] w-full  max-h-[78.8vh] overflow-auto"
-        
+        className="flex flex-col gap-[2rem] w-full  max-h-[78.8vh] overflow-auto p-[1.5rem]"
       >
         <SendingMessage message={`Hey, How are you ?`} />
-        <ReceiveImage message={`I am fine. What about you ?`} />
-        <ReceiveImage message={`What are you doing ?`} />
+        <ReceivingMessage message={`I am fine. What about you ?`} />
+        <ReceivingMessage message={`What are you doing ?`} />
         <SendingMessage message={`I am doing coding. What about you ?`} />
         <SendingMessage
           message={`What are doing ? please tell me in details.`}
         />
-        <ReceiveImage
+        <ReceivingMessage
           message={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, molestiae distinctio? Aperiam neque ut delectus quisquam nulla fugit natus cupiditate maxime quas molestiae eveniet commodi officiis expedita eum unde accusamus laborum magnam, pariatur hic ab reiciendis.`}
         />
         <SendingMessage
@@ -88,13 +86,13 @@ function MessageBody() {
         </div>
         <input
           type="text"
-          className="w-[85%] py-[1.3rem] text-white px-[2rem] text-[1.6rem]  focus:outline-none rounded-t-[.5rem] bg-[#2e2f4000] "
+          className="w-[85%] font-[600] placeholder:text-gray-600 py-[1.3rem] text-gray-900 px-[2rem] text-[1.6rem]  focus:outline-none rounded-t-[.5rem] bg-[#2e2f4000] "
           placeholder="Sending..."
         />
         <div
           style={{ borderTopRightRadius: '.75rem' }}
           id="button-send"
-          className="bg-[#319ff35e] px-[2rem] py-[1.3rem] text-[white] text-[1.6rem] flex gap-[1rem] items-center font-[600]cursor-pointer "
+          className="bg-[#319ff35e] hover:cursor-pointer px-[2rem] py-[1.3rem] text-[white] text-[1.6rem] flex gap-[1rem] items-center font-[600]cursor-pointer "
         >
           <p id="button">Send</p>
           <MdSend color="white" size={'2rem'} className="" />

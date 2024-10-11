@@ -25,7 +25,7 @@
 
 /* The entire scrollbar */
 #contact-scroll::-webkit-scrollbar {
-  width: 2px;
+  width: 0px;
   /* Width of the scrollbar */
 }
 

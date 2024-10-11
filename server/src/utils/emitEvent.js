@@ -1,0 +1,1 @@
+export const emitEvent = (req , event , users , data) => {console.log("Group is created")}

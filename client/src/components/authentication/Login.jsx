@@ -1,23 +1,25 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import InputField from '../ReUsuableComp/InputField'
 import { Button, Container, Paper, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import loginImg from '../../assets/login-img.svg'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { apiCalling } from '../../api/apiCalling'
 import { toast } from 'react-toastify'
 import { setUser } from '../../store/slice/auth/Self'
 import loginImage from '../../assets/LoginImage.jpg'
+import { getApiResponse } from '../../store/slice/apiResponse'
+import { AppDataProviderContext } from '../../context/AppDataWrapper'
 
 function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
-
+  const apiResponse = useSelector(getApiResponse)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const { setContactPersonData} = useContext(AppDataProviderContext)
   const handleLogin = async (e) => {
     e.preventDefault()
 
@@ -32,6 +34,7 @@ function Login() {
       dispatch(setUser(data.user))
       toast.success(data.message)
       localStorage.setItem('tocken', data.tocken)
+      setContactPersonData(data.user)
       navigate('/chat')
     } else toast.error(data.message)
   }
@@ -106,10 +109,16 @@ function Login() {
                   },
                 }}
               >
-                Login
+                {apiResponse?.apiStatus == true ? 'Submitting...' : 'Submit'}
+                {apiResponse?.apiStatus && (
+                  <div className="absolute left-[65%] loader"></div>
+                )}
               </Button>
               <p className="font-[600] text-[1.8rem] text-center">OR,</p>
-              <Link to="/" className="text-[1.8rem] font-[600] text-center">
+              <Link
+                to="/register"
+                className="text-[1.8rem] font-[600] text-center"
+              >
                 {`Already haven't an account`}?
                 <span className="hover:text-[#b703ee] text-[#b5f005]">
                   {' '}

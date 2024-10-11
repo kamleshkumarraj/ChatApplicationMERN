@@ -17,9 +17,8 @@ function SideMenu() {
   const navigate = useNavigate()
 
   const activeHandler = (status) => {
-    console.log(status)
     return status
-      ? 'px-[2.2rem] border-l-[.5rem] border-[#08CE95] bg-[#a0a4d826] py-[1rem]'
+      ? 'px-[2.2rem] border-l-[.5rem] border-[#08CE95] bg-[#35364C] py-[1rem]'
       : ''
   }
   const logout = async () => {
@@ -42,7 +41,7 @@ function SideMenu() {
   return (
     <div
       id="side-menu"
-      className="w-[10rem] bg-[#272838] flex flex-col gap-[4rem] py-[3rem] items-center rounded-b-[.5rem] h-screen"
+      className="w-[10rem] bg-[#8FBCCB] flex flex-col gap-[4rem] py-[3rem] items-center rounded-b-[.5rem] h-screen"
     >
       <NavLink className={'py-[3rem]'}>
         <Avatar

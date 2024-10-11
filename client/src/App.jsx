@@ -3,14 +3,18 @@ import SideMenu from './components/home/SideMenu'
 import './style.css'
 import ProfileSection from './components/ReUsuableComp/ProfileSection'
 import { apiCalling } from './api/apiCalling'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUser } from './store/slice/auth/Self'
+import {
+  AppDataProviderContext,
+  AppDataWrapper,
+} from './context/AppDataWrapper'
 
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const { setContactPersonData } = useContext(AppDataProviderContext)
   useEffect(() => {
     const options = {
       method: 'GET',
@@ -21,17 +25,16 @@ function App() {
       if (data.success) {
         navigate('/chat')
         dispatch(setUser(data.user))
-        console.log(data)
+        setContactPersonData(data.user)
       } else {
         navigate('/login')
-        console.log(data)
       }
     }
     apiCall()
   }, [])
   return (
     <>
-      <div id="app-page" className="flex  bg-[#676C77] justify-between">
+      <div id="app-page" className="flex bg-[#676C77] justify-between">
         <SideMenu />
         <Outlet />
         <ProfileSection />

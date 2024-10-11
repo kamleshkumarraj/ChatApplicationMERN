@@ -1,17 +1,41 @@
 import { CiSearch } from 'react-icons/ci'
 import { FaPlus } from 'react-icons/fa6'
-import profilePhoto from '../../assets/profilePhoto.jpg'
 import ContactBox from '../ReUsuableComp/ContactBox'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { apiCalling } from '../../api/apiCalling'
+import {
+  getAllUsers,
+  setAllUsers,
+} from '../../store/slice/user/allUserHandler.slice'
 
 function ContactList() {
+  const dispatch = useDispatch()
+
+  //now we write code for getting all users from our database.
+  useEffect(() => {
+    const options = {
+      method: 'GET',
+      url: 'http://localhost:3000/api/v1/admin/all-users',
+    }
+    const apiCall = async () => {
+      const data = await dispatch(apiCalling(options))
+      if (data.success) {
+        dispatch(setAllUsers(data.users))
+      }
+    }
+    apiCall()
+  }, [])
+  const allUsers = useSelector(getAllUsers)
+
   return (
     <div
       id="contact-body"
-      className="bg-[#2E2F40] w-[38rem] h-[100vh]  py-[3rem]"
+      className="bg-[#2e2f4000] min-w-[38rem] h-[100vh]  py-[0rem] border-r-[2px] border-[blue] "
     >
       <div
         id="search-box"
-        className="flex py-[3rem] justify-center gap-[2rem] rounded-[.2rem] border-b-[.5px] border-[#8080805d]"
+        className="flex bg-[#1c1c2970] py-[2.8rem]  justify-center gap-[2rem] rounded-[.2rem] border-b-[.5px] border-[#8080805d]"
       >
         <div
           id="search"
@@ -31,20 +55,23 @@ function ContactList() {
           <FaPlus size={'2.4rem'} color="white" />
         </div>
       </div>
-    
+
       <div
         id="contact-scroll"
-        className="mt-[3rem] flex flex-col gap-[.5rem] max-h-[77vh] overflow-auto"
+        className=" flex flex-col gap-[.75rem] max-h-[86vh] overflow-auto"
       >
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
-        <ContactBox profilePhoto={profilePhoto} />
+        {allUsers.length > 0
+          ? allUsers.map((user, idx) => {
+              return (
+                <ContactBox
+                  key={idx}
+                  image={user?.avatar?.url}
+                  fullName={`${user.firstname} ${user.middlename} ${user.lastname}`}
+                  userData={user}
+                />
+              )
+            })
+          : 'loading....'}
       </div>
     </div>
   )
