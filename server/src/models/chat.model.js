@@ -11,11 +11,11 @@ const chatSchema = new mongoose.Schema({
     },
     creator : {
         type : mongoose.Schema.ObjectId,
-        ref : "userModel"
+        ref : "User"
     },
     members : [{
         type : mongoose.Schema.ObjectId,
-        ref : "userModel"
+        ref : "User"
     }]
 },{timestamps : true})
 
