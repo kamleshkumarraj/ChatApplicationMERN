@@ -1,11 +1,11 @@
 import {Schema , Model , Types, model} from 'mongoose'
 
 const messageSchema = new Schema({
-    constent : {
+    content : {
         type : String,
         required : [true , "Content must be required" ]
     },
-    attachment : [{
+    attachments : [{
         public_id : {
             type : String,
             required : true
@@ -23,9 +23,9 @@ const messageSchema = new Schema({
     chat : {
         type : Types.ObjectId,
         ref : 'chatModel',
-        required : [true , "Chat must be required" ]
+        required : [true , "Chat must be required"]
     },
 
 } , {timestamps : true})
 
-export const mesageModel = model('Message' , messageSchema)
+export const messageModel = model('Message' , messageSchema)
