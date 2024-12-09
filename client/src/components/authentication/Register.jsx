@@ -28,33 +28,103 @@ function Register() {
     confirmPassword: '',
     avatar: '',
   })
-
+  const [errorMessage , setErrorMessage] = useState({
+    firstname: '',
+    lastname: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    avatar: '',
+  })
+  const errorConf = {
+    firstname : [
+      {required : true , message : "Please enter your first name !"},
+      {minLength : 3 , message : "Firstname must be contain at least 3 characters"}
+    ],
+    username : [
+      {required : true , message : "Please enter your user name !"},
+      {minLength : 3 , message : "Username must be contain at least 3 characters"}
+    ],
+    lastname : [
+      {required : true , message : "Please enter your last name !"},
+      {minLength : 3 , message : "Lastname must be contain at least 3 characters"}
+    ],
+    email : [
+      {required : true , message : "Please enter your email !"},
+      {pattern : /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ , message : "Please enter valid email !"}
+      ],
+    password : [
+      {required : true , message : "Password must be required !"},
+      {minLength : 8 , message : "Password must be contain at least 8 character !"},
+      {includes : '@&#' , message : "In password must be includes @ # &"}
+    ],
+    confirmPassword : [
+      {required : true , message : "Password must be required !"},
+      {minLength : 8 , message : "Password must be contain at least 8 character !"},
+      {includes : '@&#' , message : "In password must be includes @ # &"}
+    ]
+    
+  }
   const formData = new FormData()
+
+  const validate = (formDataLocal) => {
+    const error = {};
+    console.log(formDataLocal)
+    Object.entries(formDataLocal).forEach(([key , value]) => {
+      errorConf[key]?.some((rule) => {
+        if(rule.required && !value){
+          error[key] = rule.message
+          return true
+        }
+        if(rule.pattern && !rule.pattern.test(value)){
+          error[key] = rule.message
+          return true
+        }
+        if(rule.minLength && value.length < rule.minLength ){
+          error[key] = rule.message
+          return true
+        }
+        if(rule.includes && !(value.includes(rule.includes[0]) || value.includes(rule.includes[1]) || value.includes(rule.includes[2]))){
+          error[key] = rule.message
+          return true
+        }
+      })
+    })
+    
+    setErrorMessage(error)
+    return error
+  }
 
   Object.entries(formDataLocal).forEach(([key, value]) => {
     formData.append(key, value)
   })
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const error = validate(formDataLocal)
+    console.log(error)
+    if(Object.keys(error).length > 0) return
+    const options = {
+      url: "http://localhost:3000/api/v1/auth/register",
+      method: "POST",
+      formData,
+      contentType: "multipart/form-data",
+    };
+    const data = await dispatch(apiCalling(options));
+
+    if (data?.success) {
+      toast.success(data.message);
+      navigate("/login");
+      dispatch(setUser(data.user));
+    } else {
+      toast.error(data.message);
+    }
+  };
+
   const [previewImage, setPreviewImage] = useState(profilePhoto)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const options = {
-      url: 'http://localhost:3000/api/v1/auth/register',
-      method: 'POST',
-      formData,
-      contentType: 'multipart/form-data',
-    }
-    const data = await dispatch(apiCalling(options))
-
-    if (data.success) {
-      toast.success(data.message)
-      navigate('/login')
-      dispatch(setUser(data.user))
-    } else {
-      toast.error(data.message)
-    }
-  }
+  
   const [errorConfig, setErrorConfig] = useState({
     imageErrror: '',
   })
@@ -172,6 +242,7 @@ function Register() {
                 value={formDataLocal.firstname}
                 setValue={setFormDataLocal}
                 type={'text'}
+                error={errorMessage.firstname}
               />
               <InputField
                 placeholder={'Enter your middlename'}
@@ -186,6 +257,7 @@ function Register() {
                 value={formDataLocal.lastname}
                 setValue={setFormDataLocal}
                 type={'text'}
+                error={errorMessage.lastname}
               />
               <InputField
                 placeholder={'Enter your username*'}
@@ -194,6 +266,7 @@ function Register() {
                 setValue={setFormDataLocal}
                 type={'text'}
                 Note={'Username must be unique!'}
+                error={errorMessage.username}
               />
               <InputField
                 placeholder={'Enter your email*'}
@@ -201,6 +274,7 @@ function Register() {
                 value={formDataLocal.email}
                 setValue={setFormDataLocal}
                 type={'email'}
+                error={errorMessage.email}
               />
               <InputField
                 placeholder={'Enter your password*'}
@@ -208,6 +282,7 @@ function Register() {
                 value={formDataLocal.password}
                 setValue={setFormDataLocal}
                 type={'password'}
+                error={errorMessage.password}
               />
               <InputField
                 placeholder={'Enter your confirm password*'}
@@ -215,6 +290,7 @@ function Register() {
                 value={formDataLocal.confirmPassword}
                 setValue={setFormDataLocal}
                 type={'password'}
+                error={errorMessage.confirmPassword}
               />
 
               <Button

@@ -4,6 +4,7 @@ import { messageModel } from "../../models/message.model.js";
 
 export const sendAttachments = asyncHandler(async (req , res , next) => {
     const {id} = req.body;
+    console.log("chat id is : ",req.body)
     if(!id ) return next(new ErrorHandler("Please provide valid chatId !",400))
 
     const files = req.files || [];

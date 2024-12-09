@@ -16,13 +16,57 @@ function Login() {
     email: '',
     password: '',
   })
+  const [errorMessage , setErrorMessage] = useState({
+    email : '',
+    password : ''
+  })
+  const errorConfig = {
+    email : [
+      {required : true , message : "Please enter your email !"},
+      {pattern : /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ , message : "Please enter valid email !"}
+      ],
+    password : [
+      {required : true , message : "Password must be required !"},
+      {minLength : 8 , message : "Password must be contain at least 8 character !"},
+      {includes : '@&#' , message : "In password must be includes @ # &"}
+
+    ]
+  }
+  const validate = (formData) => {
+    const error = {};
+    Object.entries(formData).forEach(([key , value]) => {
+      errorConfig[key].some((rule) => {
+        if(rule.required && !value){
+          error[key] = rule.message
+          return true
+        }
+        if(rule.pattern && !rule.pattern.test(value)){
+          error[key] = rule.message
+          return true
+        }
+        if(rule.minLength && value.length < rule.minLength ){
+          error[key] = rule.message
+          return true
+        }
+        if(rule.includes && !(value.includes(rule.includes[0]) || value.includes(rule.includes[1]) || value.includes(rule.includes[2]))){
+          error[key] = rule.message
+          return true
+        }
+      })
+    })
+    setErrorMessage(error)
+    return error
+  }
   const apiResponse = useSelector(getApiResponse)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { setContactPersonData} = useContext(AppDataProviderContext)
   const handleLogin = async (e) => {
     e.preventDefault()
-
+    const error = validate(formData);
+    if(Object.keys(error).length > 0) {
+      return
+    }
     const options = {
       method: 'POST',
       url: 'http://localhost:3000/api/v1/auth/login',
@@ -83,14 +127,18 @@ function Login() {
                 name={'email'}
                 value={formData.email}
                 setValue={setFormData}
+                errorMessage = {[errorMessage , setErrorMessage]}
                 type={'email'}
+                error = {errorMessage.email}
               />
               <InputField
                 placeholder={'Enter your password*'}
                 name={'password'}
                 value={formData.password}
                 setValue={setFormData}
+                errorMessage = {[errorMessage , setErrorMessage]}
                 type={'password'}
+                error={errorMessage.password}
               />
               <Link id="forgot-pass" to={'/forgot-password'}>
                 <span className="hover:text-[#b703ee] text-[#b5f005] text-[1.8rem] font-[600]">
